@@ -84,6 +84,7 @@ init = function(path, c)
     chara.size(1,2)
     chara.weight(1.15)
     chara.mana(100)
+    chara.manaRecov(0.01)
     chara.flip(true)
 
     if not load_hotpoints(newpath .. "hotpoints") then
@@ -266,6 +267,9 @@ end
 attackUp = function(ms)
     if ms == 0 then
         chara.current(characterID)
+        if not chara.requireMana(50) then
+            return false
+        end
         chara.attack(0.5,0.75, true, "att_x", "att_y", "attup_draw", "attup_contact")
     end
     return play_anim("attackup", ms, false)
@@ -297,6 +301,7 @@ end
 
 spellSide = function(ms)
     gfx.link("drawed", "spellside")
+    chara.current(characterID)
     return true
 end
 
