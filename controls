@@ -8,8 +8,8 @@
 	"jump" : "(key) 101"
 	"runleft" : "(key) 97"
 	"catch" : "(key) 120"
-	"left" : "(key) 1073741904"
 	"attack" : "(key) 32"
+	"left" : "(key) 1073741904"
 }
 "Mega World Thrustmaster dual analog 3.2" : {
 	"runright" : "(axis) 2->32767 [0]"
@@ -21,8 +21,8 @@
 	"right" : "(axis) 0->32767 [0]"
 	"runleft" : "(axis) 2->-32768 [0]"
 	"catch" : "(joybutton) 6 [0]"
-	"attack" : "(joybutton) 0 [0]"
 	"left" : "(axis) 0->-32768 [0]"
+	"attack" : "(joybutton) 0 [0]"
 }
 "Microsoft X-Box 360 pad" : {
 	"runright" : "(axis) 0->-32768 [0]"
@@ -34,6 +34,6 @@
 	"right" : "(axis) 1->32767 [0]"
 	"runleft" : "(axis) 1->32767 [0]"
 	"catch" : "(axis) 4->-32768 [0]"
-	"attack" : "(axis) 3->-32768 [0]"
 	"left" : "(axis) 0->-32768 [0]"
+	"attack" : "(axis) 3->-32768 [0]"
 }
