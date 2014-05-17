@@ -92,17 +92,18 @@ init = function(path, c)
     end
 
     ret = true
-    ret = ret and load_anim("stand",      newpath, 50)
-    ret = ret and load_anim("run",        newpath, 50)
-    ret = ret and load_anim("stop",       newpath, 50)
-    ret = ret and load_anim("land",       newpath, 20)
-    ret = ret and load_anim("down",       newpath, 50)
-    ret = ret and load_anim("jumpair",    newpath, 50)
-    ret = ret and load_anim("attack",     newpath, 20)
-    ret = ret and load_anim("attackup",   newpath, 20)
-    ret = ret and load_anim("attackside", newpath, 20)
-    ret = ret and load_anim("attackdown", newpath, 20)
-    ret = ret and load_anim("attackair",  newpath, 40)
+    ret = ret and load_anim("stand",         newpath, 50)
+    ret = ret and load_anim("run",           newpath, 50)
+    ret = ret and load_anim("stop",          newpath, 50)
+    ret = ret and load_anim("land",          newpath, 20)
+    ret = ret and load_anim("down",          newpath, 50)
+    ret = ret and load_anim("jumpair",       newpath, 50)
+    ret = ret and load_anim("attack",        newpath, 20)
+    ret = ret and load_anim("attackup",      newpath, 20)
+    ret = ret and load_anim("attackside",    newpath, 20)
+    ret = ret and load_anim("attackdown",    newpath, 20)
+    ret = ret and load_anim("attackair",     newpath, 40)
+    ret = ret and load_anim("attackairdown", newpath, 40)
     ret = ret and load_anim("jump",       newpath, 50)
     ret = ret and gfx.loadTexture("attackairfront", newpath .. "attackairfront.png")
     gfx.hotpoint("attackairfront", 200, 400)
@@ -110,8 +111,6 @@ init = function(path, c)
     gfx.hotpoint("attackairback", 200, 400)
     ret = ret and gfx.loadTexture("attackairup",    newpath .. "attackairup.png")
     gfx.hotpoint("attackairup", 200, 400)
-    ret = ret and gfx.loadTexture("attackairdown",  newpath .. "attackairdown.png")
-    gfx.hotpoint("attackairdown", 200, 400)
     ret = ret and gfx.loadTexture("fastdown",       newpath .. "fastdown.png")
     gfx.hotpoint("fastdown", 200, 400)
     ret = ret and gfx.loadTexture("stunned",        newpath .. "stunned.png")
@@ -420,8 +419,7 @@ attackAirUp = function(ms)
 end
 
 attackAirDown = function(ms)
-    gfx.link("drawed", "attackairdown")
-    return true
+    return play_anim("attackairdown", ms, false)
 end
 
 
