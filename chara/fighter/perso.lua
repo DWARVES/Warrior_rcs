@@ -36,7 +36,6 @@ load_anim = function(name, path, fact)
         pth = path_parser.next_content()
         ms = string.match(pth, "^" .. name .. "_([0-9]*)%.png")
         if ms then
-            print("Loading " .. path .. "/" .. pth)
             if gfx.loadTexture(pth, path .. "/" .. pth) then
                 nname = name .. "_" .. ms .. ".png";
                 if hotpoints[nname] then
