@@ -106,9 +106,8 @@ init = function(path, c)
     ret = ret and load_anim("attackairdown",  newpath, 40)
     ret = ret and load_anim("attackairup",    newpath, 40)
     ret = ret and load_anim("attackairfront", newpath, 40)
+    ret = ret and load_anim("attackairback",  newpath, 40)
     ret = ret and load_anim("jump",           newpath, 50)
-    ret = ret and gfx.loadTexture("attackairback",  newpath .. "attackairback.png")
-    gfx.hotpoint("attackairback", 200, 400)
     ret = ret and gfx.loadTexture("fastdown",       newpath .. "fastdown.png")
     gfx.hotpoint("fastdown", 200, 400)
     ret = ret and gfx.loadTexture("stunned",        newpath .. "stunned.png")
@@ -406,8 +405,7 @@ attackAirFront = function(ms)
 end
 
 attackAirBack = function(ms)
-    gfx.link("drawed", "attackairback")
-    return true
+    return play_anim("attackairback", ms, false)
 end
 
 attackAirUp = function(ms)
