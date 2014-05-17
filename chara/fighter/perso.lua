@@ -34,8 +34,9 @@ load_anim = function(name, path, fact)
     ret = { maxms = 0 }
     while path_parser.has_content() do
         pth = path_parser.next_content()
-        ms = string.match(pth, name .. "_([0-9]*)%.png")
+        ms = string.match(pth, "^" .. name .. "_([0-9]*)%.png")
         if ms then
+            print("Loading " .. path .. "/" .. pth)
             if gfx.loadTexture(pth, path .. "/" .. pth) then
                 nname = name .. "_" .. ms .. ".png";
                 if hotpoints[nname] then
@@ -101,6 +102,7 @@ init = function(path, c)
     ret = ret and load_anim("attack",     newpath, 20)
     ret = ret and load_anim("attackup",   newpath, 20)
     ret = ret and load_anim("attackside", newpath, 20)
+    ret = ret and load_anim("attackdown", newpath, 20)
     ret = ret and load_anim("jump",       newpath, 50)
     ret = ret and gfx.loadTexture("attackair",      newpath .. "attackair.png")
     gfx.hotpoint("attackair", 200, 400)
@@ -116,8 +118,6 @@ init = function(path, c)
     gfx.hotpoint("fastdown", 200, 400)
     ret = ret and gfx.loadTexture("stunned",        newpath .. "stunned.png")
     gfx.hotpoint("stunned", 200, 400)
-    ret = ret and gfx.loadTexture("attackdown",     newpath .. "attackdown.png")
-    gfx.hotpoint("attackdown", 200, 400)
     ret = ret and gfx.loadTexture("spell",          newpath .. "spell.png")
     gfx.hotpoint("spell", 200, 400)
     ret = ret and gfx.loadTexture("spellside",      newpath .. "spellside.png")
@@ -290,8 +290,7 @@ attup_contact = function(id)
 end
 
 attackDown = function(ms)
-    gfx.link("drawed", "attackdown")
-    return true
+    return play_anim("attackdown", ms, false)
 end
 
 spell = function(ms)
