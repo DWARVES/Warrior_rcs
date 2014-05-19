@@ -280,7 +280,7 @@ end
 attup_contact = function(id)
     chara.current(id)
     chara.stun(10000)
-    chara.impact(20,20, characterID)
+    chara.impact(20,20)
 end
 
 attackDown = function(ms)
