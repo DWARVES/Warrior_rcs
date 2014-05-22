@@ -21,7 +21,7 @@ init = function(path)
     -- Initialising the map
     st.worldCenter(0, 350*scale)
     st.maxSize(size.w*scale, size.h*scale)
-    st.deathRect(size.w*scale, size.h*scale)
+    st.deathRect(size.w*scale*2, size.h*scale*2)
     st.minSize(7,7)
     st.appearPos(0,-5.6,1)
     st.appearPos(1,-1.9,1)
