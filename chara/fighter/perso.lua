@@ -112,14 +112,13 @@ init = function(path, c)
     ret = ret and load_anim("spelldown",      newpath, 30)
     ret = ret and load_anim("spellside",      newpath, 30)
     ret = ret and load_anim("smashdown",      newpath, 40)
+    ret = ret and load_anim("smashside",      newpath, 40)
     ret = ret and gfx.loadTexture("fastdown",       newpath .. "fastdown.png")
     gfx.hotpoint("fastdown", 200, 400)
     ret = ret and gfx.loadTexture("stunned",        newpath .. "stunned.png")
     gfx.hotpoint("stunned", 200, 400)
     ret = ret and gfx.loadTexture("spellup",        newpath .. "spellup.png")
     gfx.hotpoint("spellup", 200, 400)
-    ret = ret and gfx.loadTexture("smashside",      newpath .. "smashside.png")
-    gfx.hotpoint("smashside", 200, 400)
     ret = ret and gfx.loadTexture("smashup",        newpath .. "smashup.png")
     gfx.hotpoint("smashup", 200, 400)
     ret = ret and gfx.loadTexture("staticdodge",    newpath .. "staticdodge.png")
@@ -301,8 +300,7 @@ spellDown = function(ms)
 end
 
 smashSide = function(ms)
-    gfx.link("drawed", "smashside")
-    return true
+    return play_anim("smashside", ms, false)
 end
 
 smashUp = function(ms)
