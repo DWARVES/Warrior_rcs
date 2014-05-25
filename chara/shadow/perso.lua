@@ -336,14 +336,9 @@ flyingDashDodge = function(ms)
 end
 
 appear = function(pc)
-    if(pc <= 25) then
-        gfx.link("drawed", "appear1")
-    elseif(pc <= 50) then
-        gfx.link("drawed", "appear2")
-    elseif(pc <= 75) then
-        gfx.link("drawed", "appear3")
-    else
-        gfx.link("drawed", "appear4")
+    ms = pc / 100 * 27 * 30 * 3
+    if not play_anim("spelldown", ms, false) then
+        play_anim("stand", ms / 3 * 2, false)
     end
     return true
 end
