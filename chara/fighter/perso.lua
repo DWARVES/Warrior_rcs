@@ -193,7 +193,6 @@ attack = function(ms)
     if ms == 0 then
         chara.current(characterID)
         chara.attack(0.5,0.5, true, "att_x", "att_y", "att_draw", "att_contact")
-        print("Attacking !")
     end
     return play_anim("attack", ms, false)
 end
@@ -216,7 +215,6 @@ end
 
 att_draw = function(ms)
     if ms > 500 then
-        print("End of attack : failure !")
         return false
     else
         return true
@@ -225,8 +223,8 @@ end
 
 att_contact = function(id)
     chara.current(id)
-    chara.damage(5)
-    print("End of attack : sucess !")
+    chara.damage(3)
+    chara.impact(5,0,true)
     return false
 end
 
@@ -248,16 +246,14 @@ end
 
 attside_contact = function(id)
     chara.current(id)
-    chara.damage(50)
+    chara.damage(10)
+    chara.impact(10,5,true)
     return false
 end
 
 attackUp = function(ms)
     if ms == 0 then
         chara.current(characterID)
-        if not chara.requireMana(50) then
-            return false
-        end
         chara.attack(0.5,0.75, true, "att_x", "att_y", "attup_draw", "attup_contact")
     end
     return play_anim("attackup", ms, false)
@@ -273,8 +269,8 @@ end
 
 attup_contact = function(id)
     chara.current(id)
-    chara.stun(10000)
-    chara.impact(20,20)
+    chara.damage(8)
+    chara.impact(2,20,true)
 end
 
 attackDown = function(ms)
