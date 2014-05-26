@@ -271,6 +271,7 @@ attup_contact = function(id)
     chara.current(id)
     chara.damage(8)
     chara.impact(2,20,true)
+    return false
 end
 
 attackDown = function(ms)
