@@ -13,9 +13,9 @@ load_hotpoints = function(path)
 
     line = io.read()
     while line do
-        name,x,y = string.match(line, "^([^ i\t]+)[ \t]+([0-9]+)[ \t]+([0-9]+)")
+        name,x,y,h = string.match(line, "^([^ \t]+)[ \t]+([0-9]+)[ \t]+([0-9]+)[ \t]+([0-9.]+)")
         if name and x and y then
-            hotpoints[name] = { x = x, y = y }
+            hotpoints[name] = { x = x, y = y, h = h }
         end
         line = io.read()
     end
@@ -287,8 +287,7 @@ spellSide = function(ms)
 end
 
 spellUp = function(ms)
-    gfx.link("drawed", "spellup")
-    return true
+    return play_anim("spellup", ms, false)
 end
 
 spellDown = function(ms)
@@ -371,7 +370,7 @@ catch = function(ms)
 end
 
 up = function(ms)
-    gfx.link("drawed", "up")
+    play_anim("up", ms, true)
     return true
 end
 
