@@ -9,12 +9,11 @@ load_hotpoints = function(path)
     if not io.input(path) then
         return false
     end
-    print("Loading hotpoints.")
 
     line = io.read()
     while line do
-        name,x,y,h = string.match(line, "^([^ \t]+)[ \t]+([0-9]+)[ \t]+([0-9]+)[ \t]+([0-9.]+)")
-        if name and x and y then
+        name,x,y,h = string.match(line, "^([^ \t]+)[ \t]+([0-9.]+)[ \t]+([0-9.]+)[ \t]+([0-9.]+)")
+        if name and x and y and h then
             hotpoints[name] = { x = x, y = y, h = h }
         end
         line = io.read()
@@ -24,7 +23,6 @@ load_hotpoints = function(path)
 end
 
 load_anim = function(name, path, fact)
-    print("Loading anim " .. name)
     path_parser = Path()
     if not path_parser.list_contents(path) then
         return false
@@ -40,8 +38,10 @@ load_anim = function(name, path, fact)
         if ms then
             if gfx.loadTexture(pth, path .. "/" .. pth) then
                 nname = name .. "_" .. ms .. ".png";
+                hashp = false
                 if hotpoints[nname] then
                     gfx.hotpoint(pth, hotpoints[nname].x, hotpoints[nname].y)
+                    hashp = true
                     print("Found hotpoint for " .. pth)
                 else
                     gfx.hotpoint(pth, 336, 540)
@@ -51,7 +51,7 @@ load_anim = function(name, path, fact)
                 while ret[id] and ret[id].ms < ms do
                     id = id + 1;
                 end
-                table.insert(ret, id, {ms = ms, name = pth})
+                table.insert(ret, id, {ms = ms, name = pth, hp = nname, has = hashp})
             end
         end
     end
@@ -76,13 +76,17 @@ play_anim = function(name, ms, loop)
     while anims[name][id].ms < ms do
         id = id + 1
     end
+
+    if anims[name][id].has then
+        chara.current(characterID)
+        chara.size(1,hotpoints[anims[name][id].hp].h)
+    end
     gfx.link("drawed", anims[name][id].name);
     return true
 end
 
 init = function(path, c)
     newpath = path .. "/" .. colors[c+1] .. "/"
-    print("Init : " .. newpath)
     chara.current(characterID)
     chara.size(1,2)
     chara.weight(1.15)
