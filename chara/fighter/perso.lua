@@ -9,6 +9,7 @@ load_hotpoints = function(path)
     if not io.input(path) then
         return false
     end
+    print("Loading hotpoints.")
 
     line = io.read()
     while line do
@@ -23,6 +24,7 @@ load_hotpoints = function(path)
 end
 
 load_anim = function(name, path, fact)
+    print("Loading anim " .. name)
     path_parser = Path()
     if not path_parser.list_contents(path) then
         return false
@@ -40,6 +42,7 @@ load_anim = function(name, path, fact)
                 nname = name .. "_" .. ms .. ".png";
                 if hotpoints[nname] then
                     gfx.hotpoint(pth, hotpoints[nname].x, hotpoints[nname].y)
+                    print("Found hotpoint for " .. pth)
                 else
                     gfx.hotpoint(pth, 336, 540)
                 end
@@ -110,16 +113,15 @@ init = function(path, c)
     ret = ret and load_anim("jump",           newpath, 50)
     ret = ret and load_anim("spell",          newpath, 30)
     ret = ret and load_anim("spelldown",      newpath, 30)
+    ret = ret and load_anim("smashup",        newpath, 40)
     ret = ret and load_anim("spellside",      newpath, 30)
     ret = ret and load_anim("smashdown",      newpath, 40)
     ret = ret and load_anim("smashside",      newpath, 40)
-    ret = ret and load_anim("smashup",        newpath, 30)
+    ret = ret and load_anim("up",             newpath, 40)
     ret = ret and gfx.loadTexture("fastdown",       newpath .. "fastdown.png")
     gfx.hotpoint("fastdown", 200, 400)
     ret = ret and gfx.loadTexture("stunned",        newpath .. "stunned.png")
     gfx.hotpoint("stunned", 200, 400)
-    ret = ret and gfx.loadTexture("spellup",        newpath .. "spellup.png")
-    gfx.hotpoint("spellup", 200, 400)
     ret = ret and gfx.loadTexture("staticdodge",    newpath .. "staticdodge.png")
     gfx.hotpoint("staticdodge", 200, 400)
     ret = ret and gfx.loadTexture("dashdodge",      newpath .. "dashdodge.png")
@@ -132,8 +134,6 @@ init = function(path, c)
     gfx.hotpoint("won1", 200, 400)
     ret = ret and gfx.loadTexture("won2",           newpath .. "won2.png")
     gfx.hotpoint("won2", 200, 400)
-    ret = ret and gfx.loadTexture("up",             newpath .. "up.png")
-    gfx.hotpoint("up", 200, 400)
     ret = ret and gfx.loadTexture("appear1",        newpath .. "appear1.png")
     gfx.hotpoint("appear1", 200, 370)
     ret = ret and gfx.loadTexture("appear2",        newpath .. "appear2.png")
