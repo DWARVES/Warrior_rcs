@@ -104,6 +104,7 @@ init = function(path, c)
     ret = ret and load_anim("stop",           newpath, 50)
     ret = ret and load_anim("land",           newpath, 20)
     ret = ret and load_anim("down",           newpath, 50)
+    ret = ret and load_anim("fastdown",       newpath, 50)
     ret = ret and load_anim("jumpair",        newpath, 50)
     ret = ret and load_anim("attack",         newpath, 20)
     ret = ret and load_anim("attackup",       newpath, 20)
@@ -122,8 +123,6 @@ init = function(path, c)
     ret = ret and load_anim("smashdown",      newpath, 40)
     ret = ret and load_anim("smashside",      newpath, 40)
     ret = ret and load_anim("up",             newpath, 40)
-    ret = ret and gfx.loadTexture("fastdown",       newpath .. "fastdown.png")
-    gfx.hotpoint("fastdown", 200, 400)
     ret = ret and gfx.loadTexture("stunned",        newpath .. "stunned.png")
     gfx.hotpoint("stunned", 200, 400)
     ret = ret and gfx.loadTexture("staticdodge",    newpath .. "staticdodge.png")
@@ -180,7 +179,7 @@ down = function(ms)
 end
 
 fastDown = function(ms)
-    gfx.link("drawed", "fastdown")
+    play_anim("fastdown", ms, true)
     return true
 end
 
