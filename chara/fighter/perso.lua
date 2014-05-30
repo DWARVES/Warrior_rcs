@@ -42,7 +42,6 @@ load_anim = function(name, path, fact)
                 if hotpoints[nname] then
                     gfx.hotpoint(pth, hotpoints[nname].x, hotpoints[nname].y)
                     hashp = true
-                    print("Found hotpoint for " .. pth)
                 else
                     gfx.hotpoint(pth, 336, 540)
                 end
