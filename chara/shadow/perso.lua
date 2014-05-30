@@ -12,9 +12,9 @@ load_hotpoints = function(path)
 
     line = io.read()
     while line do
-        name,x,y = string.match(line, "^([^ i\t]+)[ \t]+([0-9]+)[ \t]+([0-9]+)")
-        if name and x and y then
-            hotpoints[name] = { x = x, y = y }
+        name,x,y,h = string.match(line, "^([^ \t]+)[ \t]+([0-9.]+)[ \t]+([0-9.]+)[ \t]+([0-9.]+)")
+        if name and x and y and h then
+            hotpoints[name] = { x = x, y = y, h = h }
         end
         line = io.read()
     end
@@ -38,8 +38,10 @@ load_anim = function(name, path, fact)
         if ms then
             if gfx.loadTexture(pth, path .. "/" .. pth) then
                 nname = name .. "_" .. ms .. ".png";
+                hashp = false
                 if hotpoints[nname] then
                     gfx.hotpoint(pth, hotpoints[nname].x, hotpoints[nname].y)
+                    hashp = true
                 else
                     gfx.hotpoint(pth, 336, 540)
                 end
@@ -48,7 +50,7 @@ load_anim = function(name, path, fact)
                 while ret[id] and ret[id].ms < ms do
                     id = id + 1;
                 end
-                table.insert(ret, id, {ms = ms, name = pth})
+                table.insert(ret, id, {ms = ms, name = pth, hp = nname, has = hashp})
             end
         end
     end
@@ -73,13 +75,17 @@ play_anim = function(name, ms, loop)
     while anims[name][id].ms < ms do
         id = id + 1
     end
+
+    if anims[name][id].has then
+        chara.current(characterID)
+        chara.size(1,hotpoints[anims[name][id].hp].h)
+    end
     gfx.link("drawed", anims[name][id].name);
     return true
 end
 
 init = function(path, c)
     newpath = path .. "/" .. colors[c+1] .. "/"
-    print("Init : " .. newpath)
     chara.current(characterID)
     chara.size(1,2)
     chara.weight(1.15)
@@ -97,6 +103,7 @@ init = function(path, c)
     ret = ret and load_anim("stop",           newpath, 50)
     ret = ret and load_anim("land",           newpath, 20)
     ret = ret and load_anim("down",           newpath, 50)
+    ret = ret and load_anim("fastdown",       newpath, 50)
     ret = ret and load_anim("jumpair",        newpath, 50)
     ret = ret and load_anim("attack",         newpath, 20)
     ret = ret and load_anim("attackup",       newpath, 20)
@@ -110,16 +117,13 @@ init = function(path, c)
     ret = ret and load_anim("jump",           newpath, 50)
     ret = ret and load_anim("spell",          newpath, 30)
     ret = ret and load_anim("spelldown",      newpath, 30)
+    ret = ret and load_anim("smashup",        newpath, 40)
     ret = ret and load_anim("spellside",      newpath, 30)
     ret = ret and load_anim("smashdown",      newpath, 40)
     ret = ret and load_anim("smashside",      newpath, 40)
-    ret = ret and load_anim("smashup",        newpath, 30)
-    ret = ret and gfx.loadTexture("fastdown",       newpath .. "fastdown.png")
-    gfx.hotpoint("fastdown", 200, 400)
+    ret = ret and load_anim("up",             newpath, 40)
     ret = ret and gfx.loadTexture("stunned",        newpath .. "stunned.png")
     gfx.hotpoint("stunned", 200, 400)
-    ret = ret and gfx.loadTexture("spellup",        newpath .. "spellup.png")
-    gfx.hotpoint("spellup", 200, 400)
     ret = ret and gfx.loadTexture("staticdodge",    newpath .. "staticdodge.png")
     gfx.hotpoint("staticdodge", 200, 400)
     ret = ret and gfx.loadTexture("dashdodge",      newpath .. "dashdodge.png")
@@ -132,8 +136,6 @@ init = function(path, c)
     gfx.hotpoint("won1", 200, 400)
     ret = ret and gfx.loadTexture("won2",           newpath .. "won2.png")
     gfx.hotpoint("won2", 200, 400)
-    ret = ret and gfx.loadTexture("up",             newpath .. "up.png")
-    gfx.hotpoint("up", 200, 400)
     ret = ret and gfx.loadTexture("appear1",        newpath .. "appear1.png")
     gfx.hotpoint("appear1", 200, 370)
     ret = ret and gfx.loadTexture("appear2",        newpath .. "appear2.png")
@@ -176,7 +178,7 @@ down = function(ms)
 end
 
 fastDown = function(ms)
-    gfx.link("drawed", "fastdown")
+    play_anim("fastdown", ms, true)
     return true
 end
 
@@ -193,7 +195,6 @@ attack = function(ms)
     if ms == 0 then
         chara.current(characterID)
         chara.attack(0.5,0.5, true, "att_x", "att_y", "att_draw", "att_contact")
-        print("Attacking !")
     end
     return play_anim("attack", ms, false)
 end
@@ -216,7 +217,6 @@ end
 
 att_draw = function(ms)
     if ms > 500 then
-        print("End of attack : failure !")
         return false
     else
         return true
@@ -225,8 +225,8 @@ end
 
 att_contact = function(id)
     chara.current(id)
-    chara.damage(5)
-    print("End of attack : sucess !")
+    chara.damage(3)
+    chara.impact(5,0,true)
     return false
 end
 
@@ -248,16 +248,14 @@ end
 
 attside_contact = function(id)
     chara.current(id)
-    chara.damage(50)
+    chara.damage(10)
+    chara.impact(10,5,true)
     return false
 end
 
 attackUp = function(ms)
     if ms == 0 then
         chara.current(characterID)
-        if not chara.requireMana(50) then
-            return false
-        end
         chara.attack(0.5,0.75, true, "att_x", "att_y", "attup_draw", "attup_contact")
     end
     return play_anim("attackup", ms, false)
@@ -273,8 +271,9 @@ end
 
 attup_contact = function(id)
     chara.current(id)
-    chara.stun(10000)
-    chara.impact(20,20)
+    chara.damage(8)
+    chara.impact(2,20,true)
+    return false
 end
 
 attackDown = function(ms)
@@ -290,8 +289,7 @@ spellSide = function(ms)
 end
 
 spellUp = function(ms)
-    gfx.link("drawed", "spellup")
-    return true
+    return play_anim("spellup", ms, false)
 end
 
 spellDown = function(ms)
@@ -336,9 +334,14 @@ flyingDashDodge = function(ms)
 end
 
 appear = function(pc)
-    ms = pc / 100 * 27 * 30 * 3
-    if not play_anim("spelldown", ms, false) then
-        play_anim("stand", ms / 3 * 2, false)
+    if(pc <= 25) then
+        gfx.link("drawed", "appear1")
+    elseif(pc <= 50) then
+        gfx.link("drawed", "appear2")
+    elseif(pc <= 75) then
+        gfx.link("drawed", "appear3")
+    else
+        gfx.link("drawed", "appear4")
     end
     return true
 end
@@ -369,7 +372,7 @@ catch = function(ms)
 end
 
 up = function(ms)
-    gfx.link("drawed", "up")
+    play_anim("up", ms, true)
     return true
 end
 
