@@ -327,8 +327,12 @@ flyingDashDodge = function(ms)
 end
 
 appear = function(pc)
-    ms = pc * 5000
-    play_anim("spelldown", ms, false)
+    ms = pc * 25
+    if ms < 810 then
+        play_anim("spelldown", ms, false)
+    else
+        play_anim("stand", ms - 810, false)
+    end
     return true
 end
 
