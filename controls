@@ -11,3 +11,16 @@
 	"attack" : "(key) 32"
 	"left" : "(key) 1073741904"
 }
+"Mega World Thrustmaster dual analog 3.2" : {
+	"runright" : "(axis) 0->32768"
+	"special" : "(joybutton) 1"
+	"jump" : "(joybutton) 2"
+	"dodge" : "(joybutton) 4"
+	"down" : "(axis) 1->16384"
+	"up" : "(axis) 1->-16384"
+	"right" : "(axis) 0->16384"
+	"runleft" : "(axis) 0->-32768"
+	"catch" : "(joybutton) 3"
+	"attack" : "(joybutton) 0"
+	"left" : "(axis) 0->-16384"
+}
