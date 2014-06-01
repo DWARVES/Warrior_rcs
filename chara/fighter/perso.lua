@@ -137,14 +137,6 @@ init = function(path, c)
     gfx.hotpoint("won1", 200, 400)
     ret = ret and gfx.loadTexture("won2",           newpath .. "won2.png")
     gfx.hotpoint("won2", 200, 400)
-    ret = ret and gfx.loadTexture("appear1",        newpath .. "appear1.png")
-    gfx.hotpoint("appear1", 200, 370)
-    ret = ret and gfx.loadTexture("appear2",        newpath .. "appear2.png")
-    gfx.hotpoint("appear2", 200, 370)
-    ret = ret and gfx.loadTexture("appear3",        newpath .. "appear3.png")
-    gfx.hotpoint("appear3", 200, 370)
-    ret = ret and gfx.loadTexture("appear4",        newpath .. "appear4.png")
-    gfx.hotpoint("appear4", 200, 370)
     return ret
 end
 
@@ -335,15 +327,8 @@ flyingDashDodge = function(ms)
 end
 
 appear = function(pc)
-    if(pc <= 25) then
-        gfx.link("drawed", "appear1")
-    elseif(pc <= 50) then
-        gfx.link("drawed", "appear2")
-    elseif(pc <= 75) then
-        gfx.link("drawed", "appear3")
-    else
-        gfx.link("drawed", "appear4")
-    end
+    ms = pc * 5000
+    play_anim("spelldown", ms, false)
     return true
 end
 
